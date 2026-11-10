@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinPulse — Gestão Financeira para Pequenas Empresas</title>
+  <style>
+    :root {
+      --bg: #0b1120;
+      --surface: #131d31;
+      --green: #10b981;
+      --cyan: #38bdf8;
+      --border: #26354f;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    img, svg { max-width: 100%; }
+    a { color: inherit; }
+    .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+
+    /* Header */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+    }
+    .logo { font-size: 1.4rem; font-weight: 800; }
+    .logo span { color: var(--green); }
+
+    /* Botões */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 48px; padding: 12px 24px;
+      border-radius: 10px; border: 0;
+      background: var(--green); color: #04201a;
+      font-weight: 700; font-size: 1rem;
+      text-decoration: none; cursor: pointer;
+      text-align: center;
+      max-width: 100%;
+    }
+    .btn:hover { filter: brightness(1.1); }
+    .btn.outline { background: transparent; color: var(--cyan); border: 2px solid var(--cyan); }
+
+    /* Hero */
+    .hero { padding: 56px 0 48px; text-align: center; }
+    .badge {
+      display: inline-block; padding: 6px 14px; border-radius: 999px;
+      background: rgba(56,189,248,.12); color: var(--cyan);
+      font-size: .85rem; font-weight: 600; margin-bottom: 20px;
+    }
+    .hero h1 { font-size: clamp(1.8rem, 6vw, 3.2rem); line-height: 1.15; margin-bottom: 16px; }
+    .hero h1 em { font-style: normal; color: var(--green); }
+    .hero p { color: var(--muted); max-width: 620px; margin: 0 auto 28px; font-size: clamp(1rem, 3.5vw, 1.15rem); }
+    .hero small { display: block; margin-top: 14px; color: var(--muted); }
+
+    section { padding: 48px 0; }
+    section h2 { text-align: center; font-size: clamp(1.5rem, 5vw, 2.2rem); margin-bottom: 8px; }
+    .sub { text-align: center; color: var(--muted); margin-bottom: 32px; }
+
+    /* Bento */
+    .bento {
+      display: grid; gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px;
+    }
+    .card .icon { font-size: 2rem; margin-bottom: 12px; }
+    .card h3 { margin-bottom: 8px; color: var(--cyan); }
+    .card p { color: var(--muted); }
+    @media (min-width: 900px) {
+      .bento { grid-template-columns: 2fr 1fr; }
+      .bento .card:first-child { grid-row: span 2; }
+    }
+
+    /* Preços */
+    .pricing {
+      display: grid; gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      max-width: 800px; margin: 0 auto;
+    }
+    .plan { display: flex; flex-direction: column; }
+    .plan.featured { border-color: var(--green); box-shadow: 0 0 0 1px var(--green); }
+    .plan h3 { font-size: 1.2rem; }
+    .price { font-size: 2.4rem; font-weight: 800; margin: 12px 0; }
+    .price small { font-size: 1rem; color: var(--muted); font-weight: 400; }
+    .plan ul { list-style: none; margin-bottom: 24px; flex: 1; }
+    .plan li { padding: 6px 0; color: var(--muted); }
+    .plan li::before { content: "✓ "; color: var(--green); font-weight: 700; }
+
+    /* FAQ */
+    .faq { max-width: 760px; margin: 0 auto; }
+    .faq-item { border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin-bottom: 12px; overflow: hidden; }
+    .faq-q {
+      width: 100%; min-height: 52px; padding: 14px 18px;
+      background: none; border: 0; color: var(--text);
+      font: inherit; font-weight: 600; text-align: left;
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      cursor: pointer;
+    }
+    .faq-q span.chev { color: var(--green); transition: transform .2s; flex-shrink: 0; }
+    .faq-item.open .chev { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+    .faq-a p { padding: 0 18px 16px; color: var(--muted); }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--border); padding: 32px 0; text-align: center; color: var(--muted); }
+    .socials { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 16px; }
+    .socials a {
+      min-height: 44px; min-width: 44px; padding: 10px 16px;
+      border: 1px solid var(--border); border-radius: 10px;
+      text-decoration: none; display: inline-flex; align-items: center; justify-content: center;
+    }
+    .socials a:hover { border-color: var(--cyan); color: var(--cyan); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="logo">Fin<span>Pulse</span></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <span class="badge">Para micro e pequenas empresas</span>
+        <h1>Seu fluxo de caixa e suas notas fiscais, <em>no piloto automático</em></h1>
+        <p>Pare de perder horas com planilhas. O FinPulse organiza o financeiro da sua empresa e emite NF-e em um clique.</p>
+        <a class="btn" href="#precos">Começar 14 Dias Grátis</a>
+        <small>Sem cartão de crédito • Cancele quando quiser</small>
+      </div>
+    </section>
+
+    <section id="recursos">
+      <div class="container">
+        <h2>Tudo que seu negócio precisa</h2>
+        <p class="sub">Três pilares para você focar em vender.</p>
+        <div class="bento">
+          <article class="card">
+            <div class="icon">⚡</div>
+            <h3>Fluxo Automático</h3>
+            <p>Conecte suas contas e veja entradas, saídas e projeções atualizadas em tempo real, sem digitar nada.</p>
+          </article>
+          <article class="card">
+            <div class="icon">🧾</div>
+            <h3>NF-e em 1 clique</h3>
+            <p>Emita notas fiscais direto do painel, com cálculo de impostos e envio automático ao cliente.</p>
+          </article>
+          <article class="card">
+            <div class="icon">🔒</div>
+            <h3>Segurança</h3>
+            <p>Criptografia de ponta a ponta e backups diários para seus dados financeiros.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="precos">
+      <div class="container">
+        <h2>Planos simples e transparentes</h2>
+        <p class="sub">Comece grátis por 14 dias em qualquer plano.</p>
+        <div class="pricing">
+          <article class="card plan">
+            <h3>MEI</h3>
+            <div class="price">R$ 39<small>/mês</small></div>
+            <ul>
+              <li>Fluxo de caixa automático</li>
+              <li>Emissão de NF-e</li>
+              <li>1 usuário</li>
+            </ul>
+            <a class="btn outline" href="#">Testar grátis</a>
+          </article>
+          <article class="card plan featured">
+            <h3>PME Pro</h3>
+            <div class="price">R$ 89<small>/mês</small></div>
+            <ul>
+              <li>Tudo do plano MEI</li>
+              <li>Relatórios avançados</li>
+              <li>Até 5 usuários</li>
+            </ul>
+            <a class="btn" href="#">Testar grátis</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="container">
+        <h2>Dúvidas frequentes</h2>
+        <p class="sub">Sobre integração bancária.</p>
+        <div class="faq">
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">Quais bancos são compatíveis? <span class="chev">+</span></button>
+            <div class="faq-a"><p>Integramos com os principais bancos e fintechs do Brasil via Open Finance, incluindo Itaú, Bradesco, Banco do Brasil, Nubank, Inter e outros.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">A integração bancária é segura? <span class="chev">+</span></button>
+            <div class="faq-a"><p>Sim. Usamos o padrão Open Finance, com acesso somente leitura. Nunca movimentamos seu dinheiro e você revoga a permissão quando quiser.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" aria-expanded="false">Quanto tempo leva para conectar minha conta? <span class="chev">+</span></button>
+            <div class="faq-a"><p>Poucos minutos. Você autoriza no app do seu banco e os lançamentos são importados automaticamente.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <nav class="socials" aria-label="Redes sociais">
+        <a href="#">Instagram</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">YouTube</a>
+      </nav>
+      <p>&copy; 2026 FinPulse. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.faq-item').forEach(function (item) {
+      var btn = item.querySelector('.faq-q');
+      var panel = item.querySelector('.faq-a');
+      btn.addEventListener('click', function () {
+        var open = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open);
+        panel.style.maxHeight = open ? panel.scrollHeight + 'px' : '0';
+      });
+    });
+  </script>
+</body>
+</html>
